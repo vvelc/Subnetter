@@ -14,7 +14,7 @@
 from time import sleep
 import os
 
-#===DATOS===#
+#===DATOS===#   
 ip = []
 mask = []
 pair = {'Base':'', 'Broadcast':''}
@@ -95,6 +95,7 @@ def clear():
 def close():
     print("Cerrando...")
     sleep(2)
+    clear()
     exit()
 
 def view():
