@@ -1,6 +1,6 @@
 """
     Autor:      Víctor Velázquez Cid
-    Versión:    Beta 1.2
+    Versión:    Beta 1.3
     Ult. actualización: 28/12/20
     
     Blog:       liteshut.blogspot.com
@@ -22,7 +22,7 @@ pair = {'Base':'', 'Broadcast':''}
 #===FUNCIONES===#
 
 def help():
-    print("""
+    print("""\
 ======================== MANUAL DE USO ========================
 /setip      Permite ingresar la IPV4 // Formato: 192.168.0.1
 /setmask    Permite ingresar la Máscara IPV4 // Formato: /8 /24
@@ -94,7 +94,7 @@ def clear():
 
 def close():
     print("Cerrando...")
-    sleep(2)
+    sleep(1)
     clear()
     exit()
 
@@ -166,12 +166,17 @@ def cmd(cm):
 #=============SCRIPT=============#
 clear()
 
-print("""\
-+=====================================+
-|   Red base & Broadcast IPV4 1       |
-|   By: Víctor Velázquez Cid          |
-|   Version: Beta 1.2                 |
-+=====================================+\
+print("""
+==================================================================
+   _____ _    _ ____  _   _ ______ _______ _______ ______ _____  
+  / ____| |  | |  _ \| \ | |  ____|__   __|__   __|  ____|  __ \ 
+ | (___ | |  | | |_) |  \| | |__     | |     | |  | |__  | |__) |
+  \___ \| |  | |  _ <| . ` |  __|    | |     | |  |  __| |  _  / 
+  ____) | |__| | |_) | |\  | |____   | |     | |  | |____| | \ \ 
+ |_____/ \____/|____/|_| \_|______|  |_|     |_|  |______|_|  \_\\
+
+Author: Víctor Velázquez Cid
+Versión: Beta 1.3\
 """)
 
 help()
