@@ -1,7 +1,7 @@
 #=============AUTHOR=============#
 """
     Autor:      Víctor Velázquez Cid
-    Versión:    Alpha 1.0
+    Versión:    Alpha 1.1
     Ult. actualización: 28/12/20
     
     Blog:       liteshut.blogspot.com
@@ -20,6 +20,11 @@ import time
 #=============DATA=============#
 net = ""
 subnets = ""
+
+#=============STRINGS=============#
+blank = ""
+space = " "
+inp = ">>"
 
 #=============COLORS=============#
 class color:
@@ -69,6 +74,17 @@ def setnet():
     except:
         print("Error: Invalid net")
 
+def help():
+    print("""\
+================================== HELP ==================================
+/set        Allows to enter IP // Formato: 192.168.10.0 or 192.168.10.0/24
+/basic      Shows base net, broadcast, first and last usable hosts
+/reset      Deletes existent data
+/clear      Cleans the terminal screen
+/help       Shows available commands
+/exit       Exit Subnetter
+==========================================================================\
+""")
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -80,10 +96,12 @@ def close():
 def cmd(cm):
     if cm == "/clear":
         return clear()
-    elif cd == "/set":
+    elif cm == "/set":
         return setnet()
-    elif cd == "/exit":
+    elif cm == "/exit":
         return close()
+    elif cm == "/help":
+        return help()
     else:
         print("Error: Este comando no existe")
 
@@ -100,7 +118,7 @@ print("""\
  |_____/ \____/|____/|_| \_|______|  |_|     |_|  |______|_|  \_\\""" + color.END + f"""
 
 [{color.GREEN}+{color.END}] Author: Víctor Velázquez Cid
-[{color.GREEN}+{color.END}] Versión: Alpha 1.0
+[{color.GREEN}+{color.END}] Versión: Alpha 1.1
 
 Type /help to see available commands. Type /exit to exit Subnetter
 """)
@@ -108,10 +126,8 @@ Type /help to see available commands. Type /exit to exit Subnetter
 #help()
 
 while True:
-    print(">> /set")
-    #opt = input(">> ")
+    opt = input("{} ".format(inp))
     
-    """
     if len(opt) == 0:
         continue
     
@@ -120,7 +136,3 @@ while True:
         continue
     
     cmd(opt)
-    """
-
-    setnet()
-    print(">>")
