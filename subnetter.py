@@ -1,14 +1,14 @@
 #=============AUTHOR=============#
 """
     Autor:      Víctor Velázquez Cid
-    Versión:    Alpha 1.5
-    Ult. actualización: 1/1/31
+    Versión:    Alpha 1.6
+    Ult. actualización: 2/1/31
     
     Blog:       liteshut.blogspot.com
     GitHub:     https://github.com/vvelc
     Contacto:   victorvelazquezcid@gmail.com
     
-    Titulo:     SUBNETTER 2
+    Titulo:     SUBNETTER
 
 """
 
@@ -188,7 +188,7 @@ def start():
  |_____/ \____/|____/|_| \_|______|  |_|     |_|  |______|_|  \_\\""" + color.END + f"""
 
 [{color.CYAN}+{color.END}] Author: Víctor Velázquez Cid
-[{color.CYAN}+{color.END}] Version: Alpha 1.5
+[{color.CYAN}+{color.END}] Version: Alpha 1.6
 
 Type /{color.CYAN}help{color.END} to see available commands. Type /{color.CYAN}exit{color.END} to exit Subnetter
 """)
