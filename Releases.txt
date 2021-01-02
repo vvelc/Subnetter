@@ -1,0 +1,12 @@
+Alpha 1.4:
+[+] New interface
+[+] New commands (/set, /basic, /wipe)
+[+] Some commands accept arguments
+[+] Added Colors to the terminal
+[+] Fixed old bugs
+
+Alpha 1.5:
+[+] Changed /basic hosts display from 1 collumn to 2 collumns
+
+Alpha 1.6:
+[+] Added subnetting

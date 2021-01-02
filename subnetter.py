@@ -16,6 +16,7 @@
 from ipaddress import *
 import os
 import time
+import math
 
 #=============DATA=============#
 net = ""
@@ -78,6 +79,63 @@ def setnet(n1=None):
         print("Error: Invalid network")
     inp = '[{}{}{}] >> '.format(color.CYAN,net,color.END)
 
+def subnet(n=None):
+    global net
+
+    if net == "":
+        print("Error: No network selected")
+        return None
+
+    prefix = int(str(net)[(int(str(net).index("/")))+1:])
+
+    if n == None:
+        print("Lets subnet your network")
+        print("In how many subnets do you want to divide your net? {0}Available: {1}{2}".format(
+            color.CYAN, (2**(31-prefix)), color.END))
+        inp = '[{}Subnets{}] >> '.format(color.CYAN,color.END)
+        n = input(inp)
+
+        if n == "":
+            print("Error: No subnets entered")
+            return None
+        elif not n.isdigit():
+            print("Error: Invalid input")
+            return None
+    
+    n = int(n)
+
+    valid = False
+
+    for i in range(33):
+        if 2**i == n:
+            valid = True
+            break
+    
+    if valid:
+        subnets = list(net.subnets(int(math.log2(n))))
+    else:
+        print("Error: Invalid number of subnets")
+        return None
+    
+    count = 0
+
+    #===Two Columns===#
+    """
+    for s in subnets:
+        s1 = s
+        if count % 2 != 0:
+            if (subnets.index(s) < len(subnets)-1):
+                s2 = subnets[subnets.index(s1)+1]
+            print(' [{0}{3}{1}] {2}'.format(color.CYAN,color.END,str(s2),count+1))
+        else:
+            print(' [{0}{3}{1}] {2:<15}'.format(color.CYAN,color.END,str(s1),count+1), end="")
+        count += 1
+    """
+    #===One Column===#
+    for s in subnets:
+        print(' [{0}{3}{1}] {2:<15}'.format(color.CYAN,color.END,str(s),count+1))
+        count += 1
+
 def basic():
     global net
     print(net)
@@ -109,17 +167,18 @@ def basic():
 def help():
     print("""\
 ================================== HELP ==================================
-/{0}set [ip]{1}  Allows to enter IP // Format: 192.168.10.0 or 192.168.10.0/24
-/{0}basic{1}     Shows base net, broadcast, first and last usable hosts
-/{0}wipe{1}      Deletes existent data
-/{0}clear{1}     Cleans the terminal screen
-/{0}help{1}      Shows available commands
-/{0}exit{1}      Exit Subnetter
+/{0}set [ip]{1}     Allows to enter IP and Prefix
+/{0}basic{1}        Shows base net, broadcast, first and last usable hosts
+/{0}subnet [n]{1}   Allows to enter in how many subnets you want to divide
+/{0}wipe{1}         Deletes existent data
+/{0}clear{1}        Cleans the terminal screen
+/{0}help{1}         Shows available commands
+/{0}exit{1}         Exit Subnetter
 ==========================================================================\
 """.format(color.CYAN,color.END))
 
 def start():
-    print("""\
+    print("""\  
 ==================================================================""" + color.CYAN + """
    _____ _    _ ____  _   _ ______ _______ _______ ______ _____  
   / ____| |  | |  _ \| \ | |  ____|__   __|__   __|  ____|  __ \ 
@@ -175,6 +234,11 @@ def cmd(cm):
                 return setnet()
         elif com == "basic":
             return basic()
+        elif com == "subnet":
+            if arg != "":
+                return subnet(arg)
+            else:
+                return subnet()
         elif com == "exit":
             return close()
         elif com == "help":
