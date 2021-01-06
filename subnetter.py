@@ -229,6 +229,19 @@ def name(nam=None):
     elif len(nam) > 20:
         print("Error: Too large name")
         return None
+
+    key_list = list(table.keys())
+    val_list = list(table.values())
+
+    if nam in key_list:
+        print("Error: Name already used")
+        return None
+
+    if str(net) in val_list:
+        oldkey = key_list[val_list.index(str(net))]
+        #table[nam] = table.pop(oldkey)
+        table.pop(oldkey, None)
+
     nam = nam.strip()
     try:
         table[nam] = str(net)
@@ -265,7 +278,8 @@ def help():
 /{0}sel [n]{1}      Allows to select a subnet of your net
 /{0}name <name>{1}  Allows to enter the name of a subnet
 /{0}table{1}        Shows a table with subnets and names.
-/{0}wipe{1}         Deletes existent data
+/{0}wipe{1}         Wipes actual subnet
+/{0}reset{1}        Resets all data
 /{0}clear{1}        Cleans the terminal screen
 /{0}help{1}         Shows available commands
 /{0}exit{1}         Exit Subnetter
@@ -301,6 +315,12 @@ def wipe():
     net = ""
     subnets = 0
 
+def reset():
+    global table
+    wipe()
+    table = {}
+    clear()
+
 def close():
     clear(True)
     exit()
@@ -322,6 +342,8 @@ def cmd(cm):
             return clear()
         elif com == "wipe":
             return wipe()
+        elif com == "reset":
+            return reset()
         elif com == "set":
             if arg != "":
                 return setnet(arg)
