@@ -8,7 +8,6 @@ cd Subnetter
 python subnetter.py
 ```
 
-
 # Usage:
 Commands
 
