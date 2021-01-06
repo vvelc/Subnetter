@@ -5,7 +5,7 @@ Version: Alpha 1.6
 # Installation:
 ```
 cd Subnetter
-python subnetter.py
+python3 subnetter.py
 ```
 
 # Usage:
