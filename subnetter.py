@@ -1,8 +1,8 @@
 #=============AUTHOR=============#
 """
     Autor:      Víctor Velázquez Cid
-    Versión:    Alpha 1.6
-    Ult. actualización: 2/1/31
+    Versión:    Alpha 1.9
+    Ult. actualización: 6/1/21
     
     Blog:       liteshut.blogspot.com
     GitHub:     https://github.com/vvelc
@@ -20,7 +20,8 @@ import math
 
 #=============DATA=============#
 net = ""
-subnets = ""
+table = {}
+subnets = 0
 
 #=============STRINGS=============#
 blank = ""
@@ -48,7 +49,7 @@ class color:
 #=============FUNCTIONS=============#
 
 def setnet(n1=None):
-    global inp, net
+    global inp, net, subnets
     if n1 == None:
         print("Lets set IP Network")
         print("Formats: {0}192.168.1.0{1} or {0}192.168.1.0/24{1}".format((color.CYAN+color.BOLD),color.END))
@@ -77,10 +78,13 @@ def setnet(n1=None):
         net = ip_network(n1)
     except:
         print("Error: Invalid network")
-    inp = '[{}{}{}] >> '.format(color.CYAN,net,color.END)
+        inp = ">>"
+        return None
+    inp = '[{}{}{}] >>'.format(color.CYAN,net,color.END)
+    subnets = 0
 
 def subnet(n=None):
-    global net
+    global net, subnets, inp
 
     if net == "":
         print("Error: No network selected")
@@ -91,7 +95,7 @@ def subnet(n=None):
     if n == None:
         print("Lets subnet your network")
         print("In how many subnets do you want to divide your net? {0}Available: {1}{2}".format(
-            color.CYAN, (2**(31-prefix)), color.END))
+            color.CYAN, (2**(30-prefix)), color.END))
         inp = '[{}Subnets{}] >> '.format(color.CYAN,color.END)
         n = input(inp)
 
@@ -112,7 +116,7 @@ def subnet(n=None):
             break
     
     if valid:
-        subnets = list(net.subnets(int(math.log2(n))))
+        snets = list(net.subnets(int(math.log2(n))))
     else:
         print("Error: Invalid number of subnets")
         return None
@@ -121,24 +125,72 @@ def subnet(n=None):
 
     #===Two Columns===#
     """
-    for s in subnets:
+    for s in snets:
         s1 = s
         if count % 2 != 0:
-            if (subnets.index(s) < len(subnets)-1):
-                s2 = subnets[subnets.index(s1)+1]
+            if (snets.index(s) < len(snets)-1):
+                s2 = snets[snets.index(s1)+1]
             print(' [{0}{3}{1}] {2}'.format(color.CYAN,color.END,str(s2),count+1))
         else:
             print(' [{0}{3}{1}] {2:<15}'.format(color.CYAN,color.END,str(s1),count+1), end="")
         count += 1
     """
     #===One Column===#
-    for s in subnets:
+    for s in snets:
         print(' [{0}{3}{1}] {2:<15}'.format(color.CYAN,color.END,str(s),count+1))
         count += 1
+    
+    subnets = n
+
+    inp = '[{0}{1}{2} [{0}{3}{2}]] >>'.format(color.CYAN,net,color.END,subnets)
+
+def select(n = None):
+    global net, inp, subnets
+
+    if net == "":
+        print("Error: No network selected")
+        return None
+
+    if subnets == 0:
+        print("Error: Network not subnetted")
+        return None
+
+    elif n == "":
+        print("Error: No subnet selected")
+        return None
+
+    snets = list(net.subnets(int(math.log2(subnets))))
+
+    if n == None:
+        print("Lets select your subnet")
+
+        count = 0
+
+        for s in snets:
+            print(' [{0}{3}{1}] {2:<15}'.format(color.CYAN,color.END,str(s),count+1))
+            count += 1
+        
+        inp = '[{}Select{}] >> '.format(color.CYAN,color.END)
+
+        selection = int(input(inp))
+
+    elif n != "" and not n.isdigit():
+        print("Error: Invalid input")
+        return None
+    
+    else:
+        selection = int(n)
+    
+    print("You've selected subnet {0}#{1}{2}".format(color.CYAN,selection,color.END))
+
+    net = snets[selection-1]
+
+    inp = '[{0}{1}{2}] >>'.format(color.CYAN,net,color.END)
+
+    subnets = 0
 
 def basic():
-    global net
-    print(net)
+    global net  
     if net == "":
         print("Error: No network selected")
         return None
@@ -150,19 +202,59 @@ def basic():
     print("[{}+{}] Base network: {}".format(color.CYAN,color.END,hosts[0]-1))
     print("[{}+{}] Usable Hosts:".format(color.CYAN,color.END))
     count = 0
-    l = len(str(hosts[-1]))
     for h in hosts:
-        h1 = h
         if count % 2 != 0:
-            if (hosts.index(h) < len(hosts)-1):
-                h2 = hosts[hosts.index(h)+1]
             print(' [{0}+{1}] {2}'.format(color.CYAN,color.END,str(h)))
         else:
             print(' [{0}+{1}] {2:<15}'.format(color.CYAN,color.END,str(h)), end="")
         count += 1
 
     print("[{}+{}] Broadcast: {}".format(color.CYAN,color.END,h+1))
+    pass
 
+def name(nam=None):
+    global net, table
+    if net == "":
+        print("Error: No network selected")
+        return None
+    elif subnets != 0:
+        print("Error: No subnet selected")
+        return None
+    elif nam == None:
+        print("Error: No name entered")
+        return None
+    elif nam.strip(" ") == "":
+        print("Error: Invalid name")
+        return None
+    elif len(nam) > 20:
+        print("Error: Too large name")
+        return None
+    nam = nam.strip()
+    try:
+        table[nam] = str(net)
+        print("Succesfully saved")
+        return
+    except:
+        print("Error: Something ocurred while saving")
+        return None
+    
+def showtable():
+    global table
+    if table == {}:
+        print("Error: No named subnets")
+        return None
+    
+    tab = """\
+===========================================
+| Subnet               Address            |
+===========================================
+{}
+===========================================
+"""
+
+    filas = [i for i in table.items()]
+
+    print(tab.format("\n".join("| {:<20} {:<18} |".format(*fila) for fila in filas)))
 
 def help():
     print("""\
@@ -170,6 +262,9 @@ def help():
 /{0}set [ip]{1}     Allows to enter IP and Prefix
 /{0}basic{1}        Shows base net, broadcast, first and last usable hosts
 /{0}subnet [n]{1}   Allows to enter in how many subnets you want to divide
+/{0}sel [n]{1}      Allows to select a subnet of your net
+/{0}name <name>{1}  Allows to enter the name of a subnet
+/{0}table{1}        Shows a table with subnets and names.
 /{0}wipe{1}         Deletes existent data
 /{0}clear{1}        Cleans the terminal screen
 /{0}help{1}         Shows available commands
@@ -178,7 +273,7 @@ def help():
 """.format(color.CYAN,color.END))
 
 def start():
-    print("""\  
+    print("""\r  
 ==================================================================""" + color.CYAN + """
    _____ _    _ ____  _   _ ______ _______ _______ ______ _____  
   / ____| |  | |  _ \| \ | |  ____|__   __|__   __|  ____|  __ \ 
@@ -188,7 +283,7 @@ def start():
  |_____/ \____/|____/|_| \_|______|  |_|     |_|  |______|_|  \_\\""" + color.END + f"""
 
 [{color.CYAN}+{color.END}] Author: Víctor Velázquez Cid
-[{color.CYAN}+{color.END}] Version: Alpha 1.6
+[{color.CYAN}+{color.END}] Version: Alpha 1.9
 
 Type /{color.CYAN}help{color.END} to see available commands. Type /{color.CYAN}exit{color.END} to exit Subnetter
 """)
@@ -204,7 +299,7 @@ def wipe():
 
     inp = ">>"
     net = ""
-    subnets = ""
+    subnets = 0
 
 def close():
     clear(True)
@@ -225,7 +320,7 @@ def cmd(cm):
 
         if com == "clear":
             return clear()
-        if com == "wipe":
+        elif com == "wipe":
             return wipe()
         elif com == "set":
             if arg != "":
@@ -239,10 +334,22 @@ def cmd(cm):
                 return subnet(arg)
             else:
                 return subnet()
+        elif com == "sel":
+            if arg != "":
+                return select(arg)
+            else:
+                return select()
         elif com == "exit":
             return close()
         elif com == "help":
             return help()
+        elif com == "name":
+            if arg != "":
+                return name(arg)
+            else:
+                return name()
+        elif com == "table":
+            return showtable()
         else:
             print("Error: Non-existent command")
             return None
