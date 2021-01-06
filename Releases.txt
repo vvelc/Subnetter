@@ -10,3 +10,16 @@ Alpha 1.5:
 
 Alpha 1.6:
 [+] Added subnetting
+
+Alpha 1.7:
+[+] Fixed minor bugs
+
+Alpha 1.8:
+[+] Added Subnet selector
+[+] Added Subnet Indicator
+[+] Fixed minor bugs
+
+Alpha 1.9:
+[+] Added Subnet naming
+[+] Added Table Subnets display
+[+] Fixed minor bugs
