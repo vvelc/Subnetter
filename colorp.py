@@ -32,3 +32,5 @@ print(f"""
 {color.WARNING}███ WARN
 {color.FAIL}███ FAIL
 """)
+
+#Esto es un comentario
