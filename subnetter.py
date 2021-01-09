@@ -2,7 +2,7 @@
 """
     Autor:      Víctor Velázquez Cid
     Versión:    Alpha 1.9
-    Ult. actualización: 6/1/21
+    Ult. actualización: 9/1/21
     
     Blog:       liteshut.blogspot.com
     GitHub:     https://github.com/vvelc
