@@ -1,6 +1,6 @@
 # Subnetter - Víctor Velázquez Cid
-Subnetter by vvelc
-Version: Alpha 1.6
+Subnetter by vvelc.
+Version: Alpha 1.9
 
 # Installation:
 ```
